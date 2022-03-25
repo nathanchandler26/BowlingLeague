@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model List<Bowler>
+@*@model TeamsViewModel*@
+
+<h1 class="text-center">Bowlers</h1><br />
+
+<table class="table table-bordered table-striped">
+    <thead class="font-weight-bold bold">
+        <tr>
+            <td>First Name</td>
+            <td>Middle Initial</td>
+            <td>Last Name</td>
+            <td>Address</td>
+            <td>City</td>
+            <td>State</td>
+            <td>Zip</td>
+            <td>Phone Number</td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var x in Model)
+            {
+                <tr>
+                    <td>@x.BowlerFirstName</td>
+                    <td>@x.BowlerMiddleInit</td>
+                    <td>@x.BowlerLastName.</td>
+                    <td>@x.BowlerAddress</td>
+                    <td>@x.BowlerCity</td>
+                    <td>@x.BowlerState</td>
+                    <td>@x.BowlerZip</td>
+                    <td>@x.BowlerPhoneNumber</td>
+
+                    @*<td>
+                        <NavLink class="btn btn-danger text-white btn-sm" @onclick="@(x => Dele"></NavLink>
+                    </td>*@
+                    <td>Edit</td>
+                    <td>Delete</td>
+                </tr>
+            }
+    </tbody>
+
+</table>
+
+<button>Add Bowler</button>

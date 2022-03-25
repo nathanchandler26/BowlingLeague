@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Delete Appointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Bowler
+
+<div class="text-center">
+
+    <h2>Comfirm Deletion</h2>
+    <h3>Are you sure that you want to delete @Model.BowlerFirstName @Model.BowlerLastName? </h3>
+
+    <form method="post" asp-action="DeleteBowler">
+        <input class="btn btn-danger" type="submit" value="Delete Bowler" />
+        <br />
+        <br />
+        <a asp-controller="Home" asp-action="Bowlers" class="btn btn-primary">Cancel</a>
+
+        <input type="hidden" asp-for="BowlerID" />
+        <input type="hidden" asp-for="TeamID" />
+
+    </form>
+
+</div>
