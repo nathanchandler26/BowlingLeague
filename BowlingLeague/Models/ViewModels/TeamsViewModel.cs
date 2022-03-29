@@ -5,15 +5,9 @@ using System.Threading.Tasks;
 
 namespace BowlingLeague.Models.ViewModels
 {
-    public class TeamsViewModel
-    {
-        public IQueryable<Team> Teams { get; set; }
-
-    }
-    
     public class ViewModel
     {
-        public Bowler Bowlers { get; set; }
-        public Team Teams { get; set; }
+        public IEnumerable<Bowler> Bowlers { get; set; }
+        public string TeamName { get; set; }
     }
 }

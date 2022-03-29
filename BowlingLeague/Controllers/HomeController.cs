@@ -13,81 +13,110 @@ namespace BowlingLeague.Controllers
 {
     public class HomeController : Controller
     {
-
-        private IBowlingLeagueRepository _repo { get; set; }
+        private BowlingLeagueDbContext _repo { get; set; }
 
         // Constructor
-        public HomeController(IBowlingLeagueRepository temp)
+        public HomeController(BowlingLeagueDbContext temp)
         {
             _repo = temp;
         }
 
-        public IActionResult Index(string teamName) // Maybe change this to team id?
+        public IActionResult Index(long teamID, string teamName) 
         {
-            var x = _repo.Bowlers
-                //.Include(x => x.TeamID == _repo.Teams)
-                //.Where(x => x.Team)
-                .ToList();
-            return View(x);
+            ViewBag.Header = teamName;
+            // Create this to display the team name at the top of the page
+
+            var Bowlers = (_repo.Bowlers
+                .Where(x => x.TeamID == teamID || teamID == 0)
+                .OrderBy(x => x.BowlerID)
+                .ToList());
+            // Display the bowlers
+            // Filter by BowlerID so that the most recently added bowler is at the bottom
+
+            foreach (Bowler bowler in Bowlers)
+            {
+                bowler.Team = _repo.Teams.Single(x => x.TeamID == bowler.TeamID);
+            }
+            // Correctly display the team name associated with each bowler
+
+            return View(new ViewModel
+            {
+                Bowlers = Bowlers,
+                TeamName = teamName,
+            });
+
         }
-
-        //var x = from b in _repo.Bowlers
-        //        join t in _repo.Teams on b.TeamID equals t.TeamID into table1
-        //        from t in table1.ToList()
-        //        select new ViewModel
-        //        {
-        //            Bowlers = b,
-        //            Teams = t
-        //        };
-
-
-
-
-        //public IActionResult Index(string teamName)
-        //{
-        //    var x = new TeamsViewModel
-        //    {
-        //        Bowlers = _repo.Bowlers
-
-        //    }
-        //    return View(x);
-        //}
 
         [HttpGet]
         public IActionResult AddBowler()
         {
-            return View();
+            ViewBag.Teams = _repo.Teams.ToList();
+
+            ViewBag.Bowlers = _repo.Bowlers.ToList();
+
+            var BowlInfo = _repo.Bowlers.ToList();
+
+            ViewBag.lengthIndex = BowlInfo.Count + 1;
+
+            var x = new Bowler();
+
+            return View(x);
         }
 
         [HttpPost]
         public IActionResult AddBowler(Bowler b)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                _repo.Add(b);
+                _repo.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.Teams = _repo.Teams.ToList();
+                return View();
+            }
         }
+        // Adding Bowlers
 
         [HttpGet]
-        public IActionResult EditBowler()
+        public IActionResult EditBowler(int id)
         {
-            return View();
+            ViewBag.Teams = _repo.Teams.ToList();
+
+            var edit = _repo.Bowlers.Single(x => x.BowlerID == id);
+            
+            return View("EditBowler", edit);
         }
 
         [HttpPost]
-        public IActionResult EditBowler(Bowler b)
+        public IActionResult EditBowler(Bowler editedBowler)
         {
-            return View();
+            _repo.Update(editedBowler);
+            _repo.SaveChanges();
+
+            return RedirectToAction("Index");
         }
+        // Editing Bowlers
 
         [HttpGet]
-        public IActionResult DeleteBowler()
+        public IActionResult DeleteBowler(int id)
         {
-            return View();
+            var Bowler = _repo.Bowlers.Single(x => x.BowlerID == id);
+
+            return View(Bowler);
         }
 
         [HttpPost]
-        public IActionResult DeleteBowler(Bowler b)
+        public IActionResult DeleteBowler(Bowler deletedBowler)
         {
-            return View();
+            _repo.Bowlers.Remove(deletedBowler);
+            _repo.SaveChanges();
+
+            return RedirectToAction("Index");
         }
+        // Deleting Bowlers
     }
 }
 

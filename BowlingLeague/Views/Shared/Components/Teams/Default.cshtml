@@ -1,16 +1,20 @@
 ﻿@{
 }
 
-@model IEnumerable<string>
+@model IEnumerable<Team>
 
 <div>
     <a asp-controller="Home" asp-action="Index" asp-route-teamName="" class="btn btn-block btn-outline-dark">Home</a>
+    @*Display a home button at the top so the user can always go home and view all bowlers*@
 
-    @foreach (string t in Model)
+    @foreach (var t in Model)
     {
-        <a asp-controller="Home" asp-action="Index" asp-route-teamName="@t"
-           class="btn btn-block @(ViewBag.SelectedType == t ? "btn-info" : "btn-outline-dark")">@t</a>
+        <a asp-controller="Home" asp-action="Index" asp-route-teamName="@t.TeamName" asp-route-teamID="@t.TeamID"
+           class="btn btn-block @(t.TeamName == ViewBag.SelectedTeam ? "btn-info" : "btn-outline-dark")">@t.TeamName</a>
         //The first color is what it looks like when clicked on, the second when highlighted
+
     }
 </div>
+@*Adding the functionality to display each team name on the left hand side*@
+
 

@@ -12,6 +12,8 @@
 
     <h4>Add Bowler</h4>
 
+    <input asp-for="BowlerID" value="@ViewBag.lengthIndex" type="hidden" />
+
     <div class="form-group">
         <label asp-for="BowlerFirstName">First Name:</label><input asp-for="BowlerFirstName" class="form-control" />
     </div>
@@ -44,8 +46,21 @@
         <label asp-for="BowlerPhoneNumber">Phone Number:</label><input asp-for="BowlerPhoneNumber" class="form-control" />
     </div>
 
+    <div class="form-group">
+        <label asp-for="TeamID">Team Name:</label>
+        <select asp-for="TeamID">
+            <option value="">Select Team</option>
+            @foreach (Team t in ViewBag.Teams)
+            {
+                <option value="@t.TeamID">@t.TeamName</option>
+            }
+        </select>
+    </div>
+    @*Display the team name of the bowler in the list as well*@
+
     <div class="float-end">
         <input class="btn btn-info" type="submit" value="Save Bowler" />
     </div>
+    @*Save the bowler information*@
 
 </form>

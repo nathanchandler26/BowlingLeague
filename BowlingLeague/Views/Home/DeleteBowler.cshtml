@@ -9,16 +9,12 @@
 
     <h2>Comfirm Deletion</h2>
     <h3>Are you sure that you want to delete @Model.BowlerFirstName @Model.BowlerLastName? </h3>
+    @*Dynamically display the name of the selected bowler to delete*@
 
     <form method="post" asp-action="DeleteBowler">
         <input class="btn btn-danger" type="submit" value="Delete Bowler" />
-        <br />
-        <br />
-        <a asp-controller="Home" asp-action="Bowlers" class="btn btn-primary">Cancel</a>
-
+        <a asp-controller="Home" asp-action="Index" class="btn btn-dark">Cancel</a>
         <input type="hidden" asp-for="BowlerID" />
-        <input type="hidden" asp-for="TeamID" />
-
     </form>
-
+    @*Add a delete or cancel button that deletes the bowler or takes the user back to the index*@
 </div>

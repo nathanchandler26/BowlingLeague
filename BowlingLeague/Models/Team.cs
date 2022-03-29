@@ -10,8 +10,11 @@ namespace BowlingLeague.Models
     {
         [Key]
         [Required]
-        public int TeamID { get; set; }
+        public long TeamID { get; set; }
+
+        //[Required]
         public string TeamName { get; set; }
-        public int CaptainID { get; set; }
+        public long? CaptainID { get; set; }
+        public virtual ICollection<Bowler> Bowlers { get; set; }
     }
 }

@@ -31,8 +31,8 @@ namespace BowlingLeague
             {
                 options.UseMySql(Configuration["ConnectionStrings:BowlingLeagueDbConnection"]);
             });
+            // Connect to the database
 
-            services.AddScoped<IBowlingLeagueRepository, EFBowlingLeagueRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +57,11 @@ namespace BowlingLeague
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("teamID", "BowlingTeam/{teamID}/{teamName}",
+                    new { Controller = "Home", action = "Index" }
+                    );
+                // When you click on a team, their team ID and team name will be at the end of the URL
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

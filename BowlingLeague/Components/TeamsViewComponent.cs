@@ -9,21 +9,18 @@ namespace BowlingLeague.Components
 {
     public class TeamsViewComponent : ViewComponent
     {
-        private IBowlingLeagueRepository repo { get; set; }
+        private BowlingLeagueDbContext _repo { get; set; }
 
         // Constructor
-        public TeamsViewComponent (IBowlingLeagueRepository temp)
+        public TeamsViewComponent (BowlingLeagueDbContext temp)
         {
-            repo = temp;
+            _repo = temp;
         }
 
         public IViewComponentResult Invoke()
         {
-            var teams = repo.Teams
-                .Select(x => x.TeamName)
-                .Distinct()
-                .OrderBy(x => x);
-            return View(teams);
+            ViewBag.SelectedTeam = RouteData?.Values["teamName"];
+            return View(_repo.Teams.Distinct().OrderBy(x => x));
         }
     }
 }

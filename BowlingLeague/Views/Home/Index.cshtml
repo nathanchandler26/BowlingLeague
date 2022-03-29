@@ -2,10 +2,11 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model List<Bowler>
-@*@model TeamsViewModel*@
+@*@model List<Bowler>*@
+@model ViewModel
 
-<h1 class="text-center">Bowlers</h1><br />
+<h1 class="text-center text-info">@ViewBag.Header</h1>
+@*Depending on which team is selected, display it at the top*@
 
 <table class="table table-bordered table-striped">
     <thead class="font-weight-bold bold">
@@ -18,31 +19,31 @@
             <td>State</td>
             <td>Zip</td>
             <td>Phone Number</td>
+            <td>Team Name</td>
         </tr>
     </thead>
 
     <tbody>
-        @foreach (var x in Model)
+        @foreach (var x in Model.Bowlers)
             {
                 <tr>
                     <td>@x.BowlerFirstName</td>
                     <td>@x.BowlerMiddleInit</td>
-                    <td>@x.BowlerLastName.</td>
+                    <td>@x.BowlerLastName</td>
                     <td>@x.BowlerAddress</td>
                     <td>@x.BowlerCity</td>
                     <td>@x.BowlerState</td>
                     <td>@x.BowlerZip</td>
                     <td>@x.BowlerPhoneNumber</td>
-
-                    @*<td>
-                        <NavLink class="btn btn-danger text-white btn-sm" @onclick="@(x => Dele"></NavLink>
-                    </td>*@
-                    <td>Edit</td>
-                    <td>Delete</td>
+                    <td>@x.Team.TeamName</td>
+                    <td><a class="btn btn-dark text-white" asp-controller="Home" asp-action="EditBowler" asp-route-id="@x.BowlerID">Edit</a></td>
+                    <td><a class="btn btn-danger" asp-controller="Home" asp-action="DeleteBowler" asp-route-id="@x.BowlerID">Delete</a></td>
                 </tr>
             }
     </tbody>
+    @*Display all of the bowler information in the table*@
 
 </table>
 
-<button>Add Bowler</button>
+<a class="btn btn-info" asp-controller="Home" asp-action="AddBowler" role="button">Add Bowler</a>
+@*Button to add a bowler at the bottom of the page*@
